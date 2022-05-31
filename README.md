@@ -152,6 +152,8 @@ Set permission to Sudo to enable USB access
 
 ![pic](https://github.com/JS-CTRL/Images/blob/main/Images/1.png?raw=true)
 
+<img src="https://github.com/JS-CTRL/Images/blob/main/Images/1.png?raw=true" alt="drawing" style="width:200px;"/>
+
 ```mermaid
 graph LR
 
