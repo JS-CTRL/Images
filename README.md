@@ -163,3 +163,4 @@ B -- Click --> C(Group)
 C -- Scroll --> D(sudo)
 
 ```
+> 💡 **Tip:** Terminal is *ctrl + alt + t*
