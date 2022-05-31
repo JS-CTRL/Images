@@ -148,6 +148,8 @@ Then close and save with the following
 Allow launching enables file as application launcher/shortcut
 Set permission to Sudo to enable USB access
 
+<img src="[http://....jpg](https://github.com/JS-CTRL/Images/blob/main/Images/1.png?raw=true)" width="200" height="200" />
+
 ![pic](https://github.com/JS-CTRL/Images/blob/main/Images/1.png?raw=true)
 
 ```mermaid
