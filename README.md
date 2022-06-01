@@ -1,23 +1,53 @@
+
+
+
+
 # 1. Installing Virtualbox
 Source Page: [virtualbox Source](https://www.virtualbox.org/wiki/Downloads) 
 #### 1.1 Download virtualbox here: [virtualbox](https://download.virtualbox.org/virtualbox/6.0.24/VirtualBox-6.0.24-139119-Win.exe)
 #### 1.2 Download virtualbox extension here: [extension](https://download.virtualbox.org/virtualbox/6.0.24/Oracle_VM_VirtualBox_Extension_Pack-6.0.24.vbox-extpack)
+#### 1.3 Create a Virtual Enviroment
+New 
+Name whatever
+Type linux
+version ubuntu 64
+next
+select memory Depends on system (1/2)
+next
+Create a virtual hard disk now
+VDI (VirtualBox Disk Image)
+Next
+Dynamically Allocated
+next
+20GB
+create
+right click
+setting 
+usb
+add 
+one that says TI
+made share bidirectional 
+Start!
+scroll to ubuntu-20.04.03-desktop-amd64.iso
+start
+
 
 # 2. Installing Energia on Linux
 Source Page: [Energia](https://energia.nu/guide/install/linux/)
 #### 2.1 Download Energia Lnux 64-bit: [Download](https://energia.nu/downloads/downloadv4.php?file=energia-1.8.10E23-linux64.tar.xz)
+Download and Save File
 #### 2.2 Extract
 Open a terminal
->Terminal Shortcut: Press *ctrl + alt + t*
+> :bulb: **Terminal Shortcut:** Press *ctrl + alt + t*
 
 Now we copy the compressed download to ***/Documents*** 
 ```python
-cp /home/test/Downloads/energia-1.8.10E23-linux64.tar /home/test/Documents 
+cp /home/test/Downloads/energia-1.8.10E23-linux64.tar.xz /home/test/Documents 
 ```
 Navigate to and extract the file
 ```python
 cd Documents/
-tar  -xvf  energia-1.8.10E23-linux64.tar
+tar  -xvf  energia-1.8.10E23-linux64.tar.xz
 ```
 *If energia package has been updated/different name use:  
 ```python
@@ -26,20 +56,39 @@ tar  -xvf  <tar_archive>
 #### 2.3 Install IDE
 Move to working directory, install arduino base and energia
 ```python
-cd energia-1.8.10E23-linux64/energia-1.8.10E23/
-sudo bash install.sh
+cd energia-1.8.10E23/
 ./arduino-linux-setup.sh $USER
+sudo bash install.sh
+
 ```
 Reboot the system
 ```python
-reboot
+systemctl reboot -i
 ```
 After reboot navigate back to dierectory and open energia in administrator mode
 ```python
-cd /Documents/energia-1.8.10E23-linux64/energia-1.8.10E23-linux64/
+cd /Documents/energia-1.8.10E23/
 sudo ./energia
 ```
+Energia should now be open
 Try blink sketch
+#### 2.4 Configure Energia for our board mspblkjsdf
+tools --> manage libraries
+instlal Energia-RSLK-Library
+##### 2.4.1 Install board 
+Tools->Board->Board Manager->type '432' and install Energia MSP432 EMT RED boards(takes a while) &rarr; close
+setup usb
+Top screen->Devices->Insert Guest->Run 
+plug in board
+Top screen->Devices->USB->TI one
+close energia (needs to restart to recognize usb)
+sudo ./energia
+Tools->board->select RED LaunchPad w/msp432p401rEMT(48MHz)
+Tools->Port->/dev/ttyACM1
+sudo apt install python-is-python3
+ensure its right
+command python --version
+File->Example->0.1.Basics->Blink->upload
 
 # 3. Installing ROS
 Source Page: [ros wiki](http://wiki.ros.org/noetic/Installation/Ubuntu)
@@ -122,6 +171,7 @@ rosrun rosserial_tivac make_libraries_energia
 
 ```
 # 5. Custom Application Launcher
+resource: https://linuxconfig.org/how-to-create-desktop-shortcut-launcher-on-ubuntu-22-04-jammy-jellyfish-linux
 #### 5.1 Create File
 Create the file on desktop
 ```python
@@ -148,12 +198,10 @@ Then close and save with the following
 Allow launching enables file as application launcher/shortcut
 Set permission to Sudo to enable USB access
 
-<img src="[http://....jpg](https://github.com/JS-CTRL/Images/blob/main/Images/1.png?raw=true)" width="200" height="200" />
-
 ![pic](https://github.com/JS-CTRL/Images/blob/main/Images/1.png?raw=true)
-
-<img src="https://github.com/JS-CTRL/Images/blob/main/Images/1.png?raw=true" alt="drawing" style="width:200px;"/>
-
+```xml
+<img src="https://github.com/JS-CTRL/Images/blob/main/Images/1.png?raw=true" alt="drawing" width="200"/>
+```
 ```mermaid
 graph LR
 
@@ -163,8 +211,5 @@ B -- Click --> C(Group)
 C -- Scroll --> D(sudo)
 
 ```
-> 💡 **Tip:** Terminal is *ctrl + alt + t*
 
 <div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://lucid.app/documents/embedded/aa4ef4ba-cb00-46ba-bd06-d4fccdb5b917" id="ZXElKCnOegZY"></iframe></div>
-
-![pic](https://lucid.app/documents/embedded/aa4ef4ba-cb00-46ba-bd06-d4fccdb5b917)
