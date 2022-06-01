@@ -55,8 +55,10 @@ Open a terminal
 
 Now we copy the compressed download to ***/Documents*** 
 ```python
-cp /home/test/Downloads/energia-1.8.10E23-linux64.tar.xz /home/test/Documents 
+cp ~/Downloads/energia-1.8.10E23-linux64.tar.xz ~/Documents 
 ```
+
+
 Navigate to and extract the file
 ```python
 cd Documents/
@@ -108,9 +110,8 @@ plug in board
 Connect usb in Virtual Machine
 >Virtual Machine tool bar->Devices->USB->TI one
 
-open energia
+open energia-Should still be in energia directory
 ```python
-cd Documents/energia-1.8.10E23/
 sudo ./energia
 ```
 
@@ -171,7 +172,7 @@ source ~/.bashrc
 ```
 To make sure your workspace is properly overlayed by the setup script, make sure ROS_PACKAGE_PATH environment variable includes the directory you're in.
 Ex: 
->/home/test/catkin_ws/src:/opt/ros/kinetic/share
+>/home/"***name***"/catkin_ws/src:/opt/ros/kinetic/share
 ```python
 echo $ROS_PACKAGE_PATH
 ```
@@ -229,10 +230,10 @@ copy and paste into doc
 Version=1.0
 Type=Application
 Terminal=false
-Exec=/home/test/Documents/energia-1.8.10E23/energia
+Exec=~/Documents/energia-1.8.10E23/energia
 Name=Skype
 Comment=Skype
-Icon=/home/test/Documents/energia-1.8.10E23/lib/arduino.png
+Icon=~/Documents/energia-1.8.10E23/lib/arduino.png
 ```
 Then close and save with the following
 >ESC :wq ENTER
