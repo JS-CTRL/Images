@@ -33,6 +33,19 @@ start
 
 
 # 2. Installing Energia on Linux
+### Usefull Linux Command Line Commands
+
+| Linux Command | Operation  |
+|--|--|
+| pwd | Show current directory |
+|mkdir *dir* |Make directory _dir_|
+| cd *dir* | Change directory to _dir_ |
+| cd .. |   Go up a directory |
+| ls | List files |
+[Expanded Command Line Cheat Sheet](https://cheatography.com/davechild/cheat-sheets/linux-command-line/)
+
+tab for autocomplete
+
 Source Page: [Energia](https://energia.nu/guide/install/linux/)
 #### 2.1 Download Energia Lnux 64-bit: [Download](https://energia.nu/downloads/downloadv4.php?file=energia-1.8.10E23-linux64.tar.xz)
 Download and Save File
@@ -49,7 +62,7 @@ Navigate to and extract the file
 cd Documents/
 tar  -xvf  energia-1.8.10E23-linux64.tar.xz
 ```
-*If energia package has been updated/different name use:  
+> :heavy_exclamation_mark: **If energia package has been updated/different name use:**  
 ```python
 tar  -xvf  <tar_archive>
 ```
@@ -57,9 +70,11 @@ tar  -xvf  <tar_archive>
 Move to working directory, install arduino base and energia
 ```python
 cd energia-1.8.10E23/
-./arduino-linux-setup.sh $USER
 sudo bash install.sh
-
+```
+Set up Arduino
+```python
+./arduino-linux-setup.sh $USER
 ```
 Reboot the system
 ```python
@@ -67,22 +82,39 @@ systemctl reboot -i
 ```
 After reboot navigate back to dierectory and open energia in administrator mode
 ```python
-cd /Documents/energia-1.8.10E23/
+cd Documents/energia-1.8.10E23/
 sudo ./energia
 ```
-Energia should now be open
-Try blink sketch
+:star: Energia should now be open with a blank sketch
 #### 2.4 Configure Energia for our board mspblkjsdf
-tools --> manage libraries
-instlal Energia-RSLK-Library
+In energia IDE
+
 ##### 2.4.1 Install board 
-Tools->Board->Board Manager->type '432' and install Energia MSP432 EMT RED boards(takes a while) &rarr; close
+>Tools->Board->Board Manager->type '432p' in search bar and install Energia MSP432 EMT RED  boards(takes a while) &rarr; Close Energia
+
 setup usb
-Top screen->Devices->Insert Guest->Run 
+>Virtual Machine tool bar->Devices->Insert Guest->Run 
+>press enter in instillation terminal
+>reboot
+```python
+systemctl reboot -i
+```
+
+Enable USB to virtual machine
 plug in board
-Top screen->Devices->USB->TI one
-close energia (needs to restart to recognize usb)
+
+>Open virtual box application->right click enviroment->settings->USB->add->Texas Instuments XDS110->ok
+
+Connect usb in Virtual Machine
+>Virtual Machine tool bar->Devices->USB->TI one
+
+open energia
+```python
+cd Documents/energia-1.8.10E23/
 sudo ./energia
+```
+
+
 Tools->board->select RED LaunchPad w/msp432p401rEMT(48MHz)
 Tools->Port->/dev/ttyACM1
 sudo apt install python-is-python3
@@ -96,11 +128,13 @@ Source Page: [ros wiki](http://wiki.ros.org/noetic/Installation/Ubuntu)
 #### 3.1 Setup your sources.list
 Setup your computer to accept software from packages.ros.org.
 ```python
--   sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 ```
 #### 3.2 Setup your keys
 ```python
 sudo apt install curl
+```
+```python
 curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
 ```
 #### 3.3 Make sure your package is up to date
@@ -109,6 +143,7 @@ sudo apt update
 sudo apt upgrade
 ```
 #### 3.4 ROS Desktop-Full Install
+>:hourglass_flowing_sand: **This will take a while**
 ```python
 sudo apt install ros-noetic-desktop-full
 ```
@@ -118,6 +153,7 @@ echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 #### 3.6 Inspect ROS Enviroment 
+:star: **ROS should now be installed**. Following command verifys instillaiton 
 ```python
 printenv | grep ROS
 ```
@@ -135,7 +171,7 @@ source ~/.bashrc
 ```
 To make sure your workspace is properly overlayed by the setup script, make sure ROS_PACKAGE_PATH environment variable includes the directory you're in.
 Ex: 
->/home/youruser/catkin_ws/src:/opt/ros/kinetic/share
+>/home/test/catkin_ws/src:/opt/ros/kinetic/share
 ```python
 echo $ROS_PACKAGE_PATH
 ```
@@ -174,9 +210,15 @@ rosrun rosserial_tivac make_libraries_energia
 resource: https://linuxconfig.org/how-to-create-desktop-shortcut-launcher-on-ubuntu-22-04-jammy-jellyfish-linux
 #### 5.1 Create File
 Create the file on desktop
-```python
 
-#need to install vim
+Need to install text editor. This example will use VIM
+
+Install vim
+```python
+sudo apt install vim
+```
+Create and open blank document on desktop
+```python
 vim ~/Desktop/Energia.desktop
 ```
 press 'i' to insert
@@ -187,10 +229,10 @@ copy and paste into doc
 Version=1.0
 Type=Application
 Terminal=false
-Exec=/home/test/Documents/ros/energia-1.8.10E23-linux64/energia-1.8.10E23/energia
+Exec=/home/test/Documents/energia-1.8.10E23/energia
 Name=Skype
 Comment=Skype
-Icon=/home/test/Documents/ros/energia-1.8.10E23-linux64/energia-1.8.10E23/lib/arduino.png
+Icon=/home/test/Documents/energia-1.8.10E23/lib/arduino.png
 ```
 Then close and save with the following
 >ESC :wq ENTER
@@ -205,11 +247,16 @@ Set permission to Sudo to enable USB access
 ```mermaid
 graph LR
 
-A[Energia] -- RightClick --> E(Allow Launching)
-A[Energia] -- RightClick --> B(Permissions)
-B -- Click --> C(Group)
-C -- Scroll --> D(sudo)
+A[Energia] -- RightClick --> F(Allow Launching)
+A[Energia] -- RightClick --> B(Properties)
+B -- Click --> C(Permissions)
+C -- Click --> D(Group)
+D -- Scroll --> E(sudo)
 
 ```
 
 <div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://lucid.app/documents/embedded/aa4ef4ba-cb00-46ba-bd06-d4fccdb5b917" id="ZXElKCnOegZY"></iframe></div>
+
+```
+[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/vt5fpE0bzSY)
+```
