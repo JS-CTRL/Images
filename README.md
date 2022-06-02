@@ -262,3 +262,4 @@ D -- Scroll --> E(sudo)
 sudo apt install python-is-python3
 ensure its right
 command python --version
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/78123230/171724443-659b8543-2679-4f69-a8dc-ddbd1b92ef52.gif)
