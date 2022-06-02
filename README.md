@@ -54,37 +54,42 @@ Open a terminal
 > :bulb: **Terminal Shortcut:** Press *ctrl + alt + t*
 
 Now we copy the compressed download to ***/Documents*** 
-```python
+```
 cp ~/Downloads/energia-1.8.10E23-linux64.tar.xz ~/Documents 
 ```
 
 
 Navigate to and extract the file
-```python
-cd Documents/
+```
+cd ~/Documents/
 tar  -xvf  energia-1.8.10E23-linux64.tar.xz
 ```
 > :heavy_exclamation_mark: **If energia package has been updated/different name use:**  
-```python
+```
 tar  -xvf  <tar_archive>
 ```
 #### 2.3 Install IDE
+Install python2.7 
+```
+sudo apt-get install python2.7-dev
+```
+
 Move to working directory, install arduino base and energia
-```python
-cd energia-1.8.10E23/
+```
+cd ~/Documents/energia-1.8.10E23/
 sudo bash install.sh
 ```
 Set up Arduino
-```python
+```
 ./arduino-linux-setup.sh $USER
 ```
 Reboot the system
-```python
+```
 systemctl reboot -i
 ```
 After reboot navigate back to dierectory and open energia in administrator mode
-```python
-cd Documents/energia-1.8.10E23/
+```
+cd ~/Documents/energia-1.8.10E23/
 sudo ./energia
 ```
 :star: Energia should now be open with a blank sketch
@@ -98,7 +103,7 @@ setup usb
 >Virtual Machine tool bar->Devices->Insert Guest->Run 
 >press enter in instillation terminal
 >reboot
-```python
+```
 systemctl reboot -i
 ```
 
@@ -110,70 +115,69 @@ plug in board
 Connect usb in Virtual Machine
 >Virtual Machine tool bar->Devices->USB->TI one
 
-open energia-Should still be in energia directory
-```python
+Open energia
+```
 sudo ./energia
 ```
 
 
 Tools->board->select RED LaunchPad w/msp432p401rEMT(48MHz)
 Tools->Port->/dev/ttyACM1
-sudo apt install python-is-python3
-ensure its right
-command python --version
-File->Example->0.1.Basics->Blink->upload
+Tools->Programmer->"dslite"
+File->Example->01.Basics->Blink->upload
+:star: **Your board should now be blinking**
 
 # 3. Installing ROS
 Source Page: [ros wiki](http://wiki.ros.org/noetic/Installation/Ubuntu)
 
 #### 3.1 Setup your sources.list
 Setup your computer to accept software from packages.ros.org.
-```python
+```
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 ```
 #### 3.2 Setup your keys
-```python
+```
 sudo apt install curl
 ```
-```python
+```
 curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
 ```
 #### 3.3 Make sure your package is up to date
-```python
+```
 sudo apt update
 sudo apt upgrade
 ```
 #### 3.4 ROS Desktop-Full Install
 >:hourglass_flowing_sand: **This will take a while**
-```python
+```
 sudo apt install ros-noetic-desktop-full
 ```
 #### 3.5 Enviroment Setup
-```python
+```
 echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 #### 3.6 Inspect ROS Enviroment 
-:star: **ROS should now be installed**. Following command verifys instillaiton 
-```python
+:star: **ROS should now be installed**. Following command verifies installation
+```
 printenv | grep ROS
 ```
 #### 3.7 Create a ROS Workspace
-```python
+```
 mkdir -p ~/catkin_ws/src
 cd ~/catkin_ws/
 catkin_make
 ```
 
 #### 3.8 Enviroment Source Upadate
-```python
+```
 echo "source devel/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 To make sure your workspace is properly overlayed by the setup script, make sure ROS_PACKAGE_PATH environment variable includes the directory you're in.
 Ex: 
 >/home/"***name***"/catkin_ws/src:/opt/ros/kinetic/share
-```python
+```
 echo $ROS_PACKAGE_PATH
 ```
 
@@ -183,29 +187,23 @@ echo $ROS_PACKAGE_PATH
 Source Page: [rosserial wiki](http://wiki.ros.org/rosserial_tivac/Tutorials/Energia%20Setup)
 #### 4.1  Download and build rosserial_tivac
 Navigate to your ROS workspace. Clone the git repository. Then build and install the package.
-```python
-cd <workspace_dir>/src
+```
+cd ~/catkin_ws/src
 git clone https://github.com/ros-drivers/rosserial.git
-cd <workspace_dir>
+cd ~/catkin_ws/
 catkin_make
 catkin_make install
 ```
 #### 4.2  Prepare rosserial libraries for Energia
 Now you have to prepare the libraries required for Energia to compile sketches with ROS enabled communication.
 Add the installed rosserial_tivac to path. Or add the command to .bashrc.
-```python
-source <workspace_dir>/install/setup.bash
+```
+source ~/catkin_ws/install/setup.bash
 ```
 Navigate to your Energia sketches directory and prepare the libraries.
-```python
-cd <sketches_dir>
-cd libraries
-rosrun rosserial_tivac make_libraries_energia
 ```
-
-
-```python
-
+cd ~/Energia/libraries/
+rosrun rosserial_tivac make_libraries_energia
 ```
 # 5. Custom Application Launcher
 resource: https://linuxconfig.org/how-to-create-desktop-shortcut-launcher-on-ubuntu-22-04-jammy-jellyfish-linux
@@ -215,25 +213,25 @@ Create the file on desktop
 Need to install text editor. This example will use VIM
 
 Install vim
-```python
+```
 sudo apt install vim
 ```
 Create and open blank document on desktop
-```python
+```
 vim ~/Desktop/Energia.desktop
 ```
 press 'i' to insert
 copy and paste into doc
-```python
+```
 #!/usr/bin/env xdg-open
 [Desktop Entry]
 Version=1.0
 Type=Application
 Terminal=false
-Exec=~/Documents/energia-1.8.10E23/energia
+Exec= /home/test/Documents/energia-1.8.10E23/energia
 Name=Skype
 Comment=Skype
-Icon=~/Documents/energia-1.8.10E23/lib/arduino.png
+Icon= /home/test/Documents/energia-1.8.10E23/lib/arduino.png
 ```
 Then close and save with the following
 >ESC :wq ENTER
@@ -261,3 +259,6 @@ D -- Scroll --> E(sudo)
 ```
 [![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/vt5fpE0bzSY)
 ```
+sudo apt install python-is-python3
+ensure its right
+command python --version
