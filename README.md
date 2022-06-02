@@ -241,6 +241,10 @@ Then close and save with the following
 
 ![ezgif com-gif-maker (3)](https://user-images.githubusercontent.com/78123230/171727275-f26136c8-b23a-4e93-b8ae-521d318d741d.gif)
 
+
+https://user-images.githubusercontent.com/78123230/171728020-2be0490a-dea6-4945-a787-81fce16232b0.mp4
+
+
 Allow launching enables file as application launcher/shortcut
 Set permission to Sudo to enable USB access
 
