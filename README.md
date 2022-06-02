@@ -217,10 +217,12 @@ Install vim
 sudo apt install vim
 ```
 Create and open blank document on desktop
+![ezgif com-gif-maker (2)](https://user-images.githubusercontent.com/78123230/171726143-5eba653e-2adf-4d15-bede-5773d9d6c536.gif)
+
 ```
 vim ~/Desktop/Energia.desktop
 ```
-press 'i' to insert
+
 copy and paste into doc
 ```
 #!/usr/bin/env xdg-open
@@ -236,7 +238,8 @@ Icon= /home/test/Documents/energia-1.8.10E23/lib/arduino.png
 Then close and save with the following
 >ESC :wq ENTER
 
-![ezgif com-gif-maker (2)](https://user-images.githubusercontent.com/78123230/171726143-5eba653e-2adf-4d15-bede-5773d9d6c536.gif)
+
+![ezgif com-gif-maker (3)](https://user-images.githubusercontent.com/78123230/171727275-f26136c8-b23a-4e93-b8ae-521d318d741d.gif)
 
 Allow launching enables file as application launcher/shortcut
 Set permission to Sudo to enable USB access
