@@ -235,6 +235,7 @@ Icon= /home/test/Documents/energia-1.8.10E23/lib/arduino.png
 ```
 Then close and save with the following
 >ESC :wq ENTER
+![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/78123230/171725056-c659f120-86f3-4e65-bfff-45536081c50f.gif)
 
 Allow launching enables file as application launcher/shortcut
 Set permission to Sudo to enable USB access
