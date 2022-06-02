@@ -229,8 +229,8 @@ Version=1.0
 Type=Application
 Terminal=false
 Exec= /home/test/Documents/energia-1.8.10E23/energia
-Name=Skype
-Comment=Skype
+Name=Energia
+Comment=Energia
 Icon= /home/test/Documents/energia-1.8.10E23/lib/arduino.png
 ```
 Then close and save with the following
