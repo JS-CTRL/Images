@@ -198,7 +198,8 @@ catkin_make install
 Now you have to prepare the libraries required for Energia to compile sketches with ROS enabled communication.
 Add the installed rosserial_tivac to path. Or add the command to .bashrc.
 ```
-source ~/catkin_ws/install/setup.bash
+echo "source ~/catkin_ws/install/setup.bash" >> ~/.bashrc
+source ~/.bashrc
 ```
 Navigate to your Energia sketches directory and prepare the libraries.
 ```
@@ -217,12 +218,10 @@ Install vim
 sudo apt install vim
 ```
 Create and open blank document on desktop
-![ezgif com-gif-maker (2)](https://user-images.githubusercontent.com/78123230/171726143-5eba653e-2adf-4d15-bede-5773d9d6c536.gif)
-
 ```
 vim ~/Desktop/Energia.desktop
 ```
-
+press 'i' to insert
 copy and paste into doc
 ```
 #!/usr/bin/env xdg-open
@@ -238,17 +237,13 @@ Icon= /home/test/Documents/energia-1.8.10E23/lib/arduino.png
 Then close and save with the following
 >ESC :wq ENTER
 
-
-![ezgif com-gif-maker (3)](https://user-images.githubusercontent.com/78123230/171727275-f26136c8-b23a-4e93-b8ae-521d318d741d.gif)
-
-
-https://user-images.githubusercontent.com/78123230/171728020-2be0490a-dea6-4945-a787-81fce16232b0.mp4
-
-
 Allow launching enables file as application launcher/shortcut
 Set permission to Sudo to enable USB access
 
-
+![pic](https://github.com/JS-CTRL/Images/blob/main/Images/1.png?raw=true)
+```xml
+<img src="https://github.com/JS-CTRL/Images/blob/main/Images/1.png?raw=true" alt="drawing" width="200"/>
+```
 ```mermaid
 graph LR
 
@@ -260,8 +255,11 @@ D -- Scroll --> E(sudo)
 
 ```
 
+<div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://lucid.app/documents/embedded/aa4ef4ba-cb00-46ba-bd06-d4fccdb5b917" id="ZXElKCnOegZY"></iframe></div>
 
+```
+[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/vt5fpE0bzSY)
+```
 sudo apt install python-is-python3
 ensure its right
 command python --version
-
