@@ -171,7 +171,7 @@ catkin_make
 
 #### 3.8 Enviroment Source Upadate
 ```
-echo "source devel/setup.bash" >> ~/.bashrc
+echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 To make sure your workspace is properly overlayed by the setup script, make sure ROS_PACKAGE_PATH environment variable includes the directory you're in.
@@ -186,6 +186,12 @@ echo $ROS_PACKAGE_PATH
 # 4. Installing ROSSerial
 Source Page: [rosserial wiki](http://wiki.ros.org/rosserial_tivac/Tutorials/Energia%20Setup)
 #### 4.1  Download and build rosserial_tivac
+First we need to install git in order to download the ROSSerial repository as well as set python 3 as alias "python"
+```
+sudo apt install git
+sudo apt install python-is-python3
+```
+
 Navigate to your ROS workspace. Clone the git repository. Then build and install the package.
 ```
 cd ~/catkin_ws/src
@@ -203,8 +209,8 @@ source ~/.bashrc
 ```
 Navigate to your Energia sketches directory and prepare the libraries.
 ```
-cd ~/Energia/libraries/
-rosrun rosserial_tivac make_libraries_energia
+cd ~/Documents/energia-1.8.10E23/libraries/
+rosrun rosserial_tivac make_libraries_energia .
 ```
 # 5. Custom Application Launcher
 resource: https://linuxconfig.org/how-to-create-desktop-shortcut-launcher-on-ubuntu-22-04-jammy-jellyfish-linux
@@ -263,3 +269,5 @@ D -- Scroll --> E(sudo)
 sudo apt install python-is-python3
 ensure its right
 command python --version
+
+json [http://s3.amazonaws.com/energiaUS/packages/package_energia_index.json](http://s3.amazonaws.com/energiaUS/packages/package_energia_index.json)
