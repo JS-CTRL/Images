@@ -261,6 +261,8 @@ D -- Scroll --> E(sudo)
 
 ```
 
+# #Random Stuff
+
 <div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://lucid.app/documents/embedded/aa4ef4ba-cb00-46ba-bd06-d4fccdb5b917" id="ZXElKCnOegZY"></iframe></div>
 
 ```
@@ -271,3 +273,31 @@ ensure its right
 command python --version
 
 json [http://s3.amazonaws.com/energiaUS/packages/package_energia_index.json](http://s3.amazonaws.com/energiaUS/packages/package_energia_index.json)
+
+# Install Code composer
+ V10 Supports msp432 *V11 does not*
+[CCS 10.4.0 Download](https://software-dl.ti.com/ccs/esd/CCSv10/CCS_10_4_0/exports/CCS10.4.0.00006_linux-x64.tar.gz)
+
+Using Ubuntu 20.04 LTS
+First lets update
+```
+sudo apt update
+```
+Then lets upgrade
+```
+sudo apt upgrade
+```
+
+Then install dependent libraries
+```
+sudo apt install libc6:i386 libusb-0.1-4 libgconf-2-4 libncurses5 libpython2.7 libtinfo5
+```
+
+
+-   if CCS was installed as user then run the driver install script
+    -   go to <CCS_INSTALL_DIR>/ccs/install_scripts
+    -   sudo ./install_drivers.sh
+    
+```
+sudo ./install_drivers.sh
+```
