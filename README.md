@@ -2,7 +2,9 @@
 # ROS on RSLK Guide
 ### This guide will go over the setup process to interface between ROS and the TI RSLK via ROS Serial
 :heavy_exclamation_mark: This guide will be using Ubuntu 20.04 with all instruction as if fresh install 
+
 :heavy_exclamation_mark: If you alter file/directory loations some steps may need to be altered
+
 :heavy_exclamation_mark: When downloading WAIT for the download to complete before proceeding to the next step
 
 This walk through will give direction on how to:
