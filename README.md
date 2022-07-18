@@ -1,9 +1,24 @@
 
 # ROS on RSLK Guide
 ### This guide will go over the setup process to interface between ROS and the TI RSLK via ROS Serial
-This guide will be using Ubuntu 20.04
+:heavy_exclamation_mark: This guide will be using Ubuntu 20.04 with all instruction as if fresh install 
+:heavy_exclamation_mark: If you alter file/directory loations some steps may need to be altered
+:heavy_exclamation_mark: When downloading WAIT for the download to complete before proceeding to the next step
 
-### Usefull Linux Command Line Commands
+This walk through will give direction on how to:
+
+ - [ ] Install VirtualBox and create a virtualized Linux system
+ - [ ] Install Energia 
+ - [ ] Install Arduino 
+ - [ ] Install Code Composer 
+ - [ ] Install Visual Studio Code 
+ - [ ] Install ROS
+ - [ ] Install ROS Serial
+ - [ ] Edit files to allow ROS Serial to interact with MSP432
+ - [ ] Run Example Code
+
+### Useful Linux Command Line Commands
+
 | Linux Command | Operation  |
 |--|--|
 | pwd | Show current directory |
@@ -11,24 +26,31 @@ This guide will be using Ubuntu 20.04
 | cd *dir* | Change directory to _dir_ |
 | cd .. |   Go up a directory |
 | ls | List files |
-
+|cd ~/ | Change to Home directory
 [Expanded Command Line Cheat Sheet](https://cheatography.com/davechild/cheat-sheets/linux-command-line/)
 
-shift + ctrl + v for paste
-tab for autocomplete
+### Useful Linux Keybinds
+| Keybind | Shortcut  |
+|--|--|
+|shift + ctrl + v |   Paste |
+| tab | Auto complete |
 
 
 
 
 
-# 1. Installing Virtualbox 
+
+
+
+
+# 1. Installing VirtualBox 
 >### These directions are for a Windows install 
 > :heavy_exclamation_mark: **Skip this step if you have a working version of Ubuntu 20.04**  
-> Source Page: [virtualbox Source](https://www.virtualbox.org/wiki/Downloads) 
+> Source Page: [VirtualBox Source](https://www.virtualbox.org/wiki/Downloads) 
 
-#### 1.1 Download virtualbox here: [virtualbox](https://download.virtualbox.org/virtualbox/6.0.24/VirtualBox-6.0.24-139119-Win.exe)
+#### 1.1 Download VirtualBox here: [VirtualBox](https://download.virtualbox.org/virtualbox/6.0.24/VirtualBox-6.0.24-139119-Win.exe)
 Virtual Box is the emulation software that we will be virtualizing our Ubuntu enviroment in 
-#### 1.2 Download virtualbox extension here: [extension](https://download.virtualbox.org/virtualbox/6.0.24/Oracle_VM_VirtualBox_Extension_Pack-6.0.24.vbox-extpack)
+#### 1.2 Download VirtualBox extension here: [VB Extension](https://download.virtualbox.org/virtualbox/6.0.24/Oracle_VM_VirtualBox_Extension_Pack-6.0.24.vbox-extpack)
 The extension allows the user to connect a USB device to the virtual enviroment 
 
 #### 1.3 Download Ubuntu 20.04 OS here: [Ubuntu](https://ubuntu.com/download/desktop/thank-you?version=22.04&architecture=amd64)
@@ -164,18 +186,63 @@ Tools->Port->/dev/ttyACM1
 Tools->Programmer->"dslite"
 File->Example->01.Basics->Blink->upload
 
-:star: **Your board should now be blinking**
-If your board is blinking, Energia is correctly installed
+:star: **If your board is blinking, Energia is correctly installed**
+
 
 # 3. Installing Arduino on Linux 
+#### 3.1 Install Arduino
 One line command to install arduino 
 ```
 sudo snap install arduino
 ```
+#### 3.2 Add MSP432P401R Board to Arduino
+The MSP432 is not a standard board in the Arduino library so in order to use this board we will need to manually add it to our board list. 
+#### 3.2.1 Download Board JSON
+Copy the follwing link: http://s3.amazonaws.com/energiaUS/packages/package_energia_index.json
+#### 3.2.1 Add Board to list of Arduino compatable boards
+Open Arduino and navigate to: 
+>File->Preferences->Additional Boards Manager URLs: 
+
+Paste the link (If there is already a board in the URL space add comma and then paste new board link)
+![Add MSP432 to Arduino Board List](https://github.com/JS-CTRL/Images/blob/main/Images/add_board.PNG)
+
+#### 3.2.1 Select the MSP432P401R Board
+In Arduino navigate
+>Tools->Board-> EnergiaMSP432 ->Red LaunchPad
+
+![Board Select](https://github.com/JS-CTRL/Images/blob/main/Images/board_select.PNG)
+
+#### 3.2.2 Test MSP432P401R Board in Arduino
+To ensure that installation is correct, in Arduino navigate 
+>File->Examples->01.Basics->Blink
+
+For the MSP we need to change LED_BUILTIN to RED_LED
+
+![Blink Demo](https://github.com/JS-CTRL/Images/blob/main/Images/blink.PNG)
+
+
+
+Now save the file and upload the sketch
+:star: **If the red LED is blinking you have sucessfully installed the board into Arduino**
+
+### 3.3 Install RSLK Library
+SimpleRSLK is a library that contains functions to allow us to easily interact with the RSLK peripherals 
+
+#### 3.3.1 Download the RSLK Library: [SimpleRSLK](https://hacksterio.s3.amazonaws.com/uploads/attachments/1217431/RSLK-Robot-Library.zip)
+
+#### 3.3.2 Install the RSLK Library
+In Arduino navigate:
+>Sketch->Include Library->Add .Zip Library->double click downlods on left and select RSLK-Robot-Library.zip->ok
+#### 3.3.3 Verify RSLK Library Install
+In Arduino navigate:
+>File->Examples->TI-Robot-Lib->_Dancing_Robot_Simplified->upload
+
+:star: **If your RSLK wheels are spinning you have sucessfully installed the SimpleRSLK library**
+
 
 
 # 3. Installing ROS
-Source Page: [ros wiki](http://wiki.ros.org/noetic/Installation/Ubuntu)
+Source Page: [ROS Wiki](http://wiki.ros.org/noetic/Installation/Ubuntu)
 
 #### 3.1 Setup your sources.list
 Setup your computer to accept software from packages.ros.org.
@@ -263,7 +330,8 @@ rosrun rosserial_tivac make_libraries_energia .
 Open Arduino and navigate:
 >Files->Examples->ros_lib
 
-If you see example files under ros_lib you have correctly installed ROS Serial
+:star: **If you see example files under ros_lib you have correctly installed ROS Serial**
+
 # 5. Install Code composer
 Code composer is installed to make use of build in emulation properties. Without these linker files Arduino will not be able to compile for the MSP432P401R board. We are using Ubuntu 20.04 LTS, which requires version 10 of code composer studio (CCS V10).
 
@@ -286,6 +354,18 @@ sudo apt install libc6:i386 libusb-0.1-4 libgconf-2-4 libncurses5 libpython2.7 l
  
 [CCS 10.4.0 Download](https://software-dl.ti.com/ccs/esd/CCSv10/CCS_10_4_0/exports/CCS10.4.0.00006_linux-x64.tar.gz)
 
+Move CCS from downloads to documents
+extact
+go in 1 file
+double click and install ->custom->msp432
+
+launch CCS
+launch ccs1
+
+
+help->check for updates
+next->next->accept terms->finish->restart
+
 -   If CCS was installed as user then run the driver install script
     -   go to <CCS_INSTALL_DIR>/ccs/install_scripts
     -   sudo ./install_drivers.sh
@@ -293,29 +373,87 @@ sudo apt install libc6:i386 libusb-0.1-4 libgconf-2-4 libncurses5 libpython2.7 l
 ```
 sudo ./install_drivers.sh
 ```
+Once Code Composer is installed you will need to do a bunch of updates
 
-# 5. Install Visual Studio Code
+# 6. Install Visual Studio Code
 Not required but makes file navigation easier 
-Download Virtual Studio Code here: [Download](https://go.microsoft.com/fwlink/?LinkID=760868)
 
-Go to Downloads
+### 6.1 Download VSC
+Download Virtual Studio Code here: [Download](https://go.microsoft.com/fwlink/?LinkID=760868)
+### 6.1 Install VSC
+Go to Downloads folder 
+
 double click/run the installer 
 
 
-# 5. Edit ROS Serial Files for TI RSLK
+# 7. Edit ROS Serial Files for TI RSLK
 Since we are using a non-standard board for ROS Serial there are a few alterations that need to be made to base files before we can upload our first ROS script. (Any text editor will work)
-Navitate
->ros_lib->ros->node_handle.h
+### 7.1 Change Buffer Size for hardware
+Navigate
+>Documents->arduino->arduino->libraries->ros_lib->ros->node_handle.h
+
 Change default node template to the following:
 
-![Image](https://github.com/JS-CTRL/Images/blob/main/Images/default_node_handle.PNG)
-```xml <img src="https://github.com/JS-CTRL/Images/blob/main/Images/default_node_handle.PNG" alt="drawing" width="200"/>
+![Hardware Template](https://github.com/JS-CTRL/Images/blob/main/Images/node_handle_hardware_change.PNG?raw=true)
+Save and close file
+
+### 7.2 Change Baud Rate
+Navigate 
+>Documents->arduino->arduino->libraries->ros_lib->ArduinoHardware.h
+>
+Change baud on lines 67 and 81 from 57600 to 115200
+![Baud Change](https://github.com/JS-CTRL/Images/blob/main/Images/baud_change.PNG?raw=true)
+
+### 7.3 Add Delay at Startup
+In the same ArduinoHardware.h file
+ add the following to line 103
+
+    delay(3000);
+
+
+![Delay in Code](https://github.com/JS-CTRL/Images/blob/main/Images/delay.PNG?raw=true)
+Save and close file
+
+### 7.4 Change RSLK header file 
+Navigate
+>Arduino->libraries->Robot-Library->src->SimpleRSLK.h
+
+add the following above the #endif
+
+    void setRawMotorSpeed(uint8_t motorNum, uint_t speed);
+
+ 
+
+# 8. Demo Code
+
+Finally we use ROS Serial on the RSLK
+### 8.1 We will use the Blink sketch as an example subscriber
+Source Blink Example: [ROS Wiki](http://wiki.ros.org/rosserial_arduino/Tutorials/Blink)
+#### 8.1.1 Open the Example Blink Sketch
+In Arduino navigate:
+>File->Example->ros_lib->Blink
+#### 8.1.2 Edit Blink Sketch
+Agian we must edit Blink sketch to be compatable with MSP432 LED_BUILTIN to RED_LED
+
+#### 8.1.3 Upload to Board
+
+#### 8.1.4 Using ROS
+Now, launch the [roscore](http://wiki.ros.org/roscore) in a new terminal window:
 ```
-
-
-# 5. Custom Application Launcher
+roscore
+```
+Next, run the rosserial client application that forwards your Arduino messages to the rest of ROS.
+```
+rosrun rosserial_python serial_node.py /dev/ttyACM0 _baud:=115200
+```
+Finally, you can toggle the LED using [rostopic](http://wiki.ros.org/rostopic):
+```
+rostopic pub toggle_led std_msgs/Empty --once
+```
+![ROS Blink Example](https://github.com/JS-CTRL/Images/blob/main/Images/ros_blink.PNG)
+# 9. Custom Application Launcher
 Source tutorial here: [Source](https://linuxconfig.org/how-to-create-desktop-shortcut-launcher-on-ubuntu-22-04-jammy-jellyfish-linux)
-#### 5.1 Create File
+#### 8.1 Create File
 Create the file on desktop to use as shortcut template
 
 Need to install text editor. This example will use VIM (Nano also works)
@@ -347,11 +485,6 @@ Then close and save with the following
 Allow launching enables file as application launcher/shortcut
 Set permission to Sudo to enable USB access
 
-![pic](https://github.com/JS-CTRL/Images/blob/main/Images/1.png?raw=true)
-```xml
-<img src="https://github.com/JS-CTRL/Images/blob/main/Images/1.png?raw=true" alt="drawing" width="200"/>
-```
-
 
 ```mermaid
 graph LR
@@ -364,17 +497,6 @@ D -- Scroll --> E(sudo)
 
 ```
 
-# #Random Stuff
 
-<div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://lucid.app/documents/embedded/aa4ef4ba-cb00-46ba-bd06-d4fccdb5b917" id="ZXElKCnOegZY"></iframe></div>
-
-```
-[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/vt5fpE0bzSY)
-```
-sudo apt install python-is-python3
-ensure its right
-command python --version
-
-json [http://s3.amazonaws.com/energiaUS/packages/package_energia_index.json](http://s3.amazonaws.com/energiaUS/packages/package_energia_index.json)
 
 
