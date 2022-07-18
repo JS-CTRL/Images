@@ -1,40 +1,9 @@
 
+# ROS on RSLK Guide
+### This guide will go over the setup process to interface between ROS and the TI RSLK via ROS Serial
+This guide will be using Ubuntu 20.04
 
-
-
-# 1. Installing Virtualbox
-Source Page: [virtualbox Source](https://www.virtualbox.org/wiki/Downloads) 
-#### 1.1 Download virtualbox here: [virtualbox](https://download.virtualbox.org/virtualbox/6.0.24/VirtualBox-6.0.24-139119-Win.exe)
-#### 1.2 Download virtualbox extension here: [extension](https://download.virtualbox.org/virtualbox/6.0.24/Oracle_VM_VirtualBox_Extension_Pack-6.0.24.vbox-extpack)
-#### 1.3 Create a Virtual Enviroment
-New 
-Name whatever
-Type linux
-version ubuntu 64
-next
-select memory Depends on system (1/2)
-next
-Create a virtual hard disk now
-VDI (VirtualBox Disk Image)
-Next
-Dynamically Allocated
-next
-20GB
-create
-right click
-setting 
-usb
-add 
-one that says TI
-made share bidirectional 
-Start!
-scroll to ubuntu-20.04.03-desktop-amd64.iso
-start
-
-
-# 2. Installing Energia on Linux
 ### Usefull Linux Command Line Commands
-
 | Linux Command | Operation  |
 |--|--|
 | pwd | Show current directory |
@@ -42,12 +11,96 @@ start
 | cd *dir* | Change directory to _dir_ |
 | cd .. |   Go up a directory |
 | ls | List files |
+
 [Expanded Command Line Cheat Sheet](https://cheatography.com/davechild/cheat-sheets/linux-command-line/)
 
+shift + ctrl + v for paste
 tab for autocomplete
 
+
+
+
+
+# 1. Installing Virtualbox 
+>### These directions are for a Windows install 
+> :heavy_exclamation_mark: **Skip this step if you have a working version of Ubuntu 20.04**  
+> Source Page: [virtualbox Source](https://www.virtualbox.org/wiki/Downloads) 
+
+#### 1.1 Download virtualbox here: [virtualbox](https://download.virtualbox.org/virtualbox/6.0.24/VirtualBox-6.0.24-139119-Win.exe)
+Virtual Box is the emulation software that we will be virtualizing our Ubuntu enviroment in 
+#### 1.2 Download virtualbox extension here: [extension](https://download.virtualbox.org/virtualbox/6.0.24/Oracle_VM_VirtualBox_Extension_Pack-6.0.24.vbox-extpack)
+The extension allows the user to connect a USB device to the virtual enviroment 
+
+#### 1.3 Download Ubuntu 20.04 OS here: [Ubuntu](https://ubuntu.com/download/desktop/thank-you?version=22.04&architecture=amd64)
+We need to load an operating system onto our linux system
+#### 1.4 Create a Virtual Enviroment
+New 
+
+Name whatever
+
+Type linux
+
+version ubuntu 64
+
+next
+
+select memory Depends on system (1/2)
+
+next
+
+Create a virtual hard disk now
+
+VDI (VirtualBox Disk Image)
+
+Next
+
+Dynamically Allocated
+
+next
+
+50GB
+
+create
+
+right click
+
+setting 
+
+usb
+
+add 
+
+one that says TI
+
+made share bidirectional 
+
+Start!
+
+scroll to ubuntu-20.04-desktop-amd64.iso ( select from wherever you previously download it)
+
+start
+
+setup usb
+>Virtual Machine tool bar->Devices->Insert Guest->Run 
+>press enter in instillation terminal
+>reboot
+```
+systemctl reboot -i
+```
+
+Enable USB to virtual machine
+plug in board
+
+>Open virtual box application->right click enviroment->settings->USB->add->Texas Instuments XDS110->ok
+
+Connect usb in Virtual Machine
+>Virtual Machine tool bar->Devices->USB->TI one
+>
+
+# 2. Installing Energia on Linux
+
 Source Page: [Energia](https://energia.nu/guide/install/linux/)
-#### 2.1 Download Energia Lnux 64-bit: [Download](https://energia.nu/downloads/downloadv4.php?file=energia-1.8.10E23-linux64.tar.xz)
+#### 2.1 Download Energia Linux 64-bit: [Download](https://energia.nu/downloads/downloadv4.php?file=energia-1.8.10E23-linux64.tar.xz)
 Download and Save File
 #### 2.2 Extract
 Open a terminal
@@ -93,27 +146,12 @@ cd ~/Documents/energia-1.8.10E23/
 sudo ./energia
 ```
 :star: Energia should now be open with a blank sketch
-#### 2.4 Configure Energia for our board mspblkjsdf
+#### 2.4 Configure Energia for our board MSP432P401R
 In energia IDE
 
 ##### 2.4.1 Install board 
 >Tools->Board->Board Manager->type '432p' in search bar and install Energia MSP432 EMT RED  boards(takes a while) &rarr; Close Energia
 
-setup usb
->Virtual Machine tool bar->Devices->Insert Guest->Run 
->press enter in instillation terminal
->reboot
-```
-systemctl reboot -i
-```
-
-Enable USB to virtual machine
-plug in board
-
->Open virtual box application->right click enviroment->settings->USB->add->Texas Instuments XDS110->ok
-
-Connect usb in Virtual Machine
->Virtual Machine tool bar->Devices->USB->TI one
 
 Open energia
 ```
@@ -121,11 +159,20 @@ sudo ./energia
 ```
 
 
-Tools->board->select RED LaunchPad w/msp432p401rEMT(48MHz)
+>Tools->board->select RED LaunchPad w/msp432p401rEMT(48MHz)
 Tools->Port->/dev/ttyACM1
 Tools->Programmer->"dslite"
 File->Example->01.Basics->Blink->upload
+
 :star: **Your board should now be blinking**
+If your board is blinking, Energia is correctly installed
+
+# 3. Installing Arduino on Linux 
+One line command to install arduino 
+```
+sudo snap install arduino
+```
+
 
 # 3. Installing ROS
 Source Page: [ros wiki](http://wiki.ros.org/noetic/Installation/Ubuntu)
@@ -183,7 +230,7 @@ echo $ROS_PACKAGE_PATH
 
 
 
-# 4. Installing ROSSerial
+# 4. Installing ROS Serial
 Source Page: [rosserial wiki](http://wiki.ros.org/rosserial_tivac/Tutorials/Energia%20Setup)
 #### 4.1  Download and build rosserial_tivac
 First we need to install git in order to download the ROSSerial repository as well as set python 3 as alias "python"
@@ -200,7 +247,7 @@ cd ~/catkin_ws/
 catkin_make
 catkin_make install
 ```
-#### 4.2  Prepare rosserial libraries for Energia
+#### 4.2  Prepare ROS Serial libraries for Energia
 Now you have to prepare the libraries required for Energia to compile sketches with ROS enabled communication.
 Add the installed rosserial_tivac to path. Or add the command to .bashrc.
 ```
@@ -212,12 +259,66 @@ Navigate to your Energia sketches directory and prepare the libraries.
 cd ~/Documents/energia-1.8.10E23/libraries/
 rosrun rosserial_tivac make_libraries_energia .
 ```
-# 5. Custom Application Launcher
-resource: https://linuxconfig.org/how-to-create-desktop-shortcut-launcher-on-ubuntu-22-04-jammy-jellyfish-linux
-#### 5.1 Create File
-Create the file on desktop
+#### 4.3  Verify ROS Serial instillation 
+Open Arduino and navigate:
+>Files->Examples->ros_lib
 
-Need to install text editor. This example will use VIM
+If you see example files under ros_lib you have correctly installed ROS Serial
+# 5. Install Code composer
+Code composer is installed to make use of build in emulation properties. Without these linker files Arduino will not be able to compile for the MSP432P401R board. We are using Ubuntu 20.04 LTS, which requires version 10 of code composer studio (CCS V10).
+
+First lets update the system
+```
+sudo apt update
+```
+Then lets upgrade
+```
+sudo apt upgrade
+```
+
+Then install dependent libraries (required before installing CCS V10)
+```
+sudo apt install libc6:i386 libusb-0.1-4 libgconf-2-4 libncurses5 libpython2.7 libtinfo5
+```
+
+ Now install CCS V10 
+ > :heavy_exclamation_mark: **CCS V10 supports msp432 *V11 does not!*** 
+ 
+[CCS 10.4.0 Download](https://software-dl.ti.com/ccs/esd/CCSv10/CCS_10_4_0/exports/CCS10.4.0.00006_linux-x64.tar.gz)
+
+-   If CCS was installed as user then run the driver install script
+    -   go to <CCS_INSTALL_DIR>/ccs/install_scripts
+    -   sudo ./install_drivers.sh
+    
+```
+sudo ./install_drivers.sh
+```
+
+# 5. Install Visual Studio Code
+Not required but makes file navigation easier 
+Download Virtual Studio Code here: [Download](https://go.microsoft.com/fwlink/?LinkID=760868)
+
+Go to Downloads
+double click/run the installer 
+
+
+# 5. Edit ROS Serial Files for TI RSLK
+Since we are using a non-standard board for ROS Serial there are a few alterations that need to be made to base files before we can upload our first ROS script. (Any text editor will work)
+Navitate
+>ros_lib->ros->node_handle.h
+Change default node template to the following:
+
+![Image](https://github.com/JS-CTRL/Images/blob/main/Images/default_node_handle.PNG)
+```xml <img src="https://github.com/JS-CTRL/Images/blob/main/Images/default_node_handle.PNG" alt="drawing" width="200"/>
+```
+
+
+# 5. Custom Application Launcher
+Source tutorial here: [Source](https://linuxconfig.org/how-to-create-desktop-shortcut-launcher-on-ubuntu-22-04-jammy-jellyfish-linux)
+#### 5.1 Create File
+Create the file on desktop to use as shortcut template
+
+Need to install text editor. This example will use VIM (Nano also works)
 
 Install vim
 ```
@@ -250,6 +351,8 @@ Set permission to Sudo to enable USB access
 ```xml
 <img src="https://github.com/JS-CTRL/Images/blob/main/Images/1.png?raw=true" alt="drawing" width="200"/>
 ```
+
+
 ```mermaid
 graph LR
 
@@ -274,30 +377,4 @@ command python --version
 
 json [http://s3.amazonaws.com/energiaUS/packages/package_energia_index.json](http://s3.amazonaws.com/energiaUS/packages/package_energia_index.json)
 
-# Install Code composer
- V10 Supports msp432 *V11 does not*
-[CCS 10.4.0 Download](https://software-dl.ti.com/ccs/esd/CCSv10/CCS_10_4_0/exports/CCS10.4.0.00006_linux-x64.tar.gz)
 
-Using Ubuntu 20.04 LTS
-First lets update
-```
-sudo apt update
-```
-Then lets upgrade
-```
-sudo apt upgrade
-```
-
-Then install dependent libraries
-```
-sudo apt install libc6:i386 libusb-0.1-4 libgconf-2-4 libncurses5 libpython2.7 libtinfo5
-```
-
-
--   if CCS was installed as user then run the driver install script
-    -   go to <CCS_INSTALL_DIR>/ccs/install_scripts
-    -   sudo ./install_drivers.sh
-    
-```
-sudo ./install_drivers.sh
-```
