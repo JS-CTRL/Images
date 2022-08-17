@@ -4,8 +4,10 @@
 
 
 :heavy_exclamation_mark: This guide will be using Ubuntu 20.04 with all instruction as if fresh install 
-:heavy_exclamation_mark: If you alter file/directory loations some steps may need to be altered
-:heavy_exclamation_mark: When downloading WAIT for the download to complete before proceeding to the next step
+
+:heavy_exclamation_mark: If you alter file/directory locations some steps may need to be altered
+
+
 
 ### This walk-through will give step by step instruction on the following:
 **Required**
@@ -54,6 +56,56 @@ sudo apt install git
 
 
 
+# 1. Install Code composer
+Source Page: [Code Composer](https://www.ti.com/tool/CCSTUDIO?utm_source=google&utm_medium=cpc&utm_campaign=epd-der-null-58700007779115352_code_composer_rsa-cpc-evm-google-wwe&utm_content=code_composer&ds_k=code+composer&gclid=CjwKCAjw3K2XBhAzEiwAmmgrAvcbfPHsoayrKN0Y8kCgjbqTkyleYJD60xYukmRZfhQrXIRSlARGnBoCmfUQAvD_BwE&gclsrc=aw.ds)
+
+Code composer is required for its emulation properties. Without these linker files Arduino will not be able to compile for the MSP432P401R board. We are using Ubuntu 20.04 LTS, which requires version 10 of code composer studio (CCS V10).
+#### 1.1 Install Dependencies
+First update the system
+```
+sudo apt update
+```
+Upgrade the system
+```
+sudo apt upgrade
+```
+
+Then install dependent libraries (required before installing CCS V10)
+```
+sudo apt install libc6:i386 libusb-0.1-4 libgconf-2-4 libncurses5 libpython2.7 libtinfo5
+```
+#### 1.2 Install Code Composer
+   :heavy_exclamation_mark: When downloading WAIT for the download to complete before proceeding to the next step
+[CCS 10.4.0 Download](https://software-dl.ti.com/ccs/esd/CCSv10/CCS_10_4_0/exports/CCS10.4.0.00006_linux-x64.tar.gz)
+
+```
+cp ~/Downloads/CCS10.4.0.00006_linux-x64.tar.gz ~/Documents 
+```
+
+
+Navigate to and extract the file
+```
+cd ~/Documents/
+tar  -xvf  CCS10.4.0.00006_linux-x64.tar.gz
+```
+> :heavy_exclamation_mark: **If energia package has been updated/different name use:**  
+```
+tar  -xvf  <tar_archive>
+```
+Move CCS from downloads to documents
+extact
+go in 1 file
+double click and install ->custom->msp432
+
+launch CCS
+launch ccs1
+
+
+help->check for updates
+next->next->accept terms->finish->restart
+
+
+Once Code Composer is installed you will need to do a bunch of updates
 
 
 
@@ -71,11 +123,16 @@ Copy the follwing link: http://s3.amazonaws.com/energiaUS/packages/package_energ
 Open Arduino and navigate to: 
 >File->Preferences->Additional Boards Manager URLs: 
 
-Paste the link (If there is already a board in the URL space add comma and then paste new board link)
+Paste the link (If there is already a board in the URL space add comma and then paste new board link) and then click *OK*
 ![Add MSP432 to Arduino Board List](https://github.com/JS-CTRL/Images/blob/main/Images/add_board.PNG?raw=true)
+#### 1.2.1 Install the MSP432P401R Board
+>Tools->Board->Boards Manager... 
 
-#### 1.2.1 Select the MSP432P401R Board
-In Arduino navigate
+Search *"msp"* and install "*ENERGIA MSP432 EMT RED boards*" 
+
+ InsertPIC
+#### 1.2.2 Select the MSP432P401R Board
+Now select the board
 >Tools->Board-> EnergiaMSP432 ->Red LaunchPad
 
 ![Board Select](https://github.com/JS-CTRL/Images/blob/main/Images/board_select.PNG?raw=true)
@@ -88,7 +145,8 @@ For the MSP we need to change LED_BUILTIN to RED_LED
 
 ![Blink Demo](https://github.com/JS-CTRL/Images/blob/main/Images/blink.PNG?raw=true)
 
-
+Select the port
+insert pic portSelect
 
 Now save the file and upload the sketch
 :star: **If the red LED is blinking you have sucessfully installed the board into Arduino**
@@ -188,43 +246,7 @@ Open Arduino and navigate:
 
 :star: **If you see example files under ros_lib you have correctly installed ROS Serial**
 
-# 4. Install Code composer
-Source Page: [Code Composer](https://www.ti.com/tool/CCSTUDIO?utm_source=google&utm_medium=cpc&utm_campaign=epd-der-null-58700007779115352_code_composer_rsa-cpc-evm-google-wwe&utm_content=code_composer&ds_k=code+composer&gclid=CjwKCAjw3K2XBhAzEiwAmmgrAvcbfPHsoayrKN0Y8kCgjbqTkyleYJD60xYukmRZfhQrXIRSlARGnBoCmfUQAvD_BwE&gclsrc=aw.ds)
 
-Code composer is required for its emulation properties. Without these linker files Arduino will not be able to compile for the MSP432P401R board. We are using Ubuntu 20.04 LTS, which requires version 10 of code composer studio (CCS V10).
-
-First update the system
-```
-sudo apt update
-```
-Upgrade the system
-```
-sudo apt upgrade
-```
-
-Then install dependent libraries (required before installing CCS V10)
-```
-sudo apt install libc6:i386 libusb-0.1-4 libgconf-2-4 libncurses5 libpython2.7 libtinfo5
-```
-
- Now install CCS V10 
- 
-[CCS 10.4.0 Download](https://software-dl.ti.com/ccs/esd/CCSv10/CCS_10_4_0/exports/CCS10.4.0.00006_linux-x64.tar.gz)
-
-Move CCS from downloads to documents
-extact
-go in 1 file
-double click and install ->custom->msp432
-
-launch CCS
-launch ccs1
-
-
-help->check for updates
-next->next->accept terms->finish->restart
-
-
-Once Code Composer is installed you will need to do a bunch of updates
 
 
 
@@ -306,7 +328,7 @@ Download Simulation folder
 
 	cd ~/Documents/
     git clone https://github.com/JS-CTRL/Images.git
-    cd ~/Documents/Images/rslk_ws/src/
+    cd ~/Documents/Images/rslk_ws/
 
 Build 
 
@@ -314,12 +336,34 @@ Build
     
 Source it   
 
-    echo "source ~/Documents/Images/rslk_ws/devel/setup.bash" >> ~/.bashrs
+    echo "source ~/Documents/Images/rslk_ws/devel/setup.bash" >> ~/.bashrc
     source ~/.bashrc
 Launch 
 
     roslaunch rslk world.launch
-
+Gazebo should open and you should see a simplifies RSLK model in the center of the simulation
+Close Gazebo and install odom_test code to the RSLK
+Now, launch the [roscore](http://wiki.ros.org/roscore) in a new terminal window:
+```
+roscore
+```
+Next, launch the serial_node
+```
+rosrun rosserial_python serial_node.py /dev/ttyACM0 _baud:=115200
+```
+Monitor the positional data
+```
+rostopic echo /tf
+```
+if X and Y are changing launch rviz
+```
+rviz
+```
+Change Fixed Frame from map to odom
+Add TF
+should see chassis driving in a circle around stationary odom origin
+add RobotModel
+should see robot model imposed over chassis 
 # Optional (Nice to Haves)
 # 8. Install Visual Studio Code
 Not required but makes file navigation easier 
