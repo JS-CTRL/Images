@@ -78,6 +78,7 @@ sudo apt install libc6:i386 libusb-0.1-4 libgconf-2-4 libncurses5 libpython2.7 l
    :heavy_exclamation_mark: When downloading WAIT for the download to complete before proceeding to the next step
 [CCS 10.4.0 Download](https://software-dl.ti.com/ccs/esd/CCSv10/CCS_10_4_0/exports/CCS10.4.0.00006_linux-x64.tar.gz)
 
+Open a new terminal and paste the commands:
 ```
 cp ~/Downloads/CCS10.4.0.00006_linux-x64.tar.gz ~/Documents 
 ```
@@ -88,10 +89,18 @@ Navigate to and extract the file
 cd ~/Documents/
 tar  -xvf  CCS10.4.0.00006_linux-x64.tar.gz
 ```
-> :heavy_exclamation_mark: **If energia package has been updated/different name use:**  
+run the installer
 ```
-tar  -xvf  <tar_archive>
+cd ~/Documents/CCS10.4.0.00006_linux-x64/
+./ccs_setup_10.4.0.00006.run
 ```
+follow gui installer accept all default options 
+Select Setup type: Custom Instillation(Recommended) 
+then msp(insert pic)
+Finish
+Now open CCS
+
+
 Move CCS from downloads to documents
 extact
 go in 1 file
