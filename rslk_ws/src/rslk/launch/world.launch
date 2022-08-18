@@ -12,6 +12,9 @@
   <!-- Launch other relevant files-->
   <include file="$(find rslk)/launch/robot_description.launch"/>
 
+  <!-- Run Rviz-->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rslk)/launch/rslk.rviz"/>
+
   <!-- World File -->
   <arg name="world_file" default="$(find rslk)/worlds/empty.world"/>
 
