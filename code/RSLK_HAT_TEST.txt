@@ -1,0 +1,192 @@
+//*******************************************************************
+// Jeromey Schwartz
+// Date: October 15 2022
+// Objective: Display various capabilities of RSLK HAT
+//            *SERVO
+//                -Sweeps continuously
+//            *LED0 
+//                - HIGH while servo is moving CW
+//                -LOW while servo is moving CCW
+//            *LED1
+//                -Red if object detected less than DANGER_DISTANCE 
+//                -Yellow if object detected less than WARNING_DISTANCE 
+//                -Green is no object detected within WARNING_DISTANCE
+//*******************************************************************
+
+#include<stdio.h>
+#include <Servo.h> 
+#include "SimpleRSLK.h"
+Servo myservo;  // create servo object to control a servo 
+
+//====Define Pins===//
+#define TRIG_PIN_RIGHT 02   //P6.0 on the MSP432 Launchpad
+#define ECHO_PIN_RIGHT 23   //P6.1 on the MSP432 Launchpad 
+#define TRIG_PIN_FRONT 42   //P9.0 on the MSP432 Launchpad
+#define ECHO_PIN_FRONT 59   //P9.1 on the MSP432 Launchpad 
+#define TRIG_PIN_LEFT  36   //P6.6 on the MSP432 Launchpad
+#define ECHO_PIN_LEFT  35   //P6.7 on the MSP432 Launchpad 
+
+#define SERVO_PIN      32   //P3.5 on the MSP432 Launchpad 
+
+#define RED 75   //LED0 RGB
+#define GREEN 77 //LED0 RGB     *Green and blue are flipped (77 should be blue)
+#define BLUE  76 //LED0 RGB     *Green and blue are flipped (76 should be green)
+#define LED 78   //LED1 Static
+
+//====Constants===//
+#define WARNING_DISTANCE 15 //Distance Ultrasonic reads to turn LED0 Yellow
+#define DANGER_DISTANCE  05 //Distance Ultrasonic reads to turn LED0 Red
+
+#define COUNT_MAX 180       //Set for 180 degree max servo
+#define SERVO_INCREMENT 3   //Steps to turn servo each increment
+
+//====Global===//
+enum ultraSonic {RIGHT,FRONT,LEFT}; //when robot is facing away
+enum dir{CW, CCW}; //servo direction
+int position=0; //holds servo position
+int direction=CW; //holds servo direction
+
+//====Prototypes===//
+int getDist(int identifier);
+void turnServo(int increment);
+void displayAll(int left, int front, int right);
+
+
+void setup() {    // put your setup code here, to run once:
+   setupRSLK(); 
+   // initialize input/output pins
+   setupWaitBtn(LP_LEFT_BTN);             // Left button on Launchpad  
+   pinMode(TRIG_PIN_FRONT, OUTPUT);      //Setting up ultra input/outputs 
+   pinMode(ECHO_PIN_FRONT, INPUT);        
+   pinMode(TRIG_PIN_RIGHT, OUTPUT);       
+   pinMode(ECHO_PIN_RIGHT, INPUT); 
+   pinMode(TRIG_PIN_LEFT, OUTPUT);        
+   pinMode(ECHO_PIN_LEFT, INPUT);          
+
+   myservo.attach(SERVO_PIN);     // attaches the servo on P3.5 to the servo object 
+   myservo.write(90);             // Set servo position to the default "home" position
+
+   Serial.begin(9600);                       //start of serial monitor
+   Serial.println("Starting RSLK Hat Test...");
+}
+
+
+
+void loop() {    
+    int count=0; //used to monitor loop count
+    String btnMsg = "\nPush left button on Launchpad to start run\n";
+    waitBtnPressed(LP_LEFT_BTN,btnMsg,BLUE);          // Wait until button is pressed to start robot
+    
+    
+    
+    while (1){  //this loop runs after the button is pressed                 
+      
+      //Distance Portion//
+      int distanceRight=getDist(RIGHT);                
+      int distanceFront=getDist(FRONT);
+      int distanceLeft=getDist(LEFT);
+     
+
+      //Finding closest/lowest distance between 3 sensors
+      int lowestDistance=distanceRight;
+      if (distanceFront < lowestDistance)lowestDistance =distanceFront;
+      if (distanceLeft  < lowestDistance)lowestDistance =distanceLeft;
+
+
+      //Set RGB as warning system, Red=danger, Yellow=close, Green=clear
+      if (lowestDistance <= DANGER_DISTANCE){
+        digitalWrite(RED,HIGH);
+        digitalWrite(GREEN,LOW);
+        digitalWrite(BLUE,LOW);
+        }
+      else if (lowestDistance <= WARNING_DISTANCE){
+        digitalWrite(RED,HIGH);
+        digitalWrite(GREEN,HIGH);
+        digitalWrite(BLUE,LOW);
+        }
+      else {
+        digitalWrite(RED,LOW);
+        digitalWrite(GREEN,HIGH);
+        digitalWrite(BLUE,LOW);
+      }
+
+
+      //turn servo
+      turnServo(count);
+
+      //Toggle LED, ON when Servo CW off otherwise
+      if (direction==CW) digitalWrite(LED,HIGH);
+      else digitalWrite(LED,LOW);
+
+      //Displays ultra and servo values on serial monitor
+      displayAll(distanceLeft, distanceFront, distanceRight);
+      
+      count++;
+      if (count>COUNT_MAX) count=0;
+    }//end while(1)
+}//end main 
+
+
+ //=============Turns servo==============================================================//
+void turnServo(int increment){
+  if (position>=COUNT_MAX) direction=CW; //if pos is at max change direction
+  if (position<=0) direction=CCW;   //if pos is at min change direction
+  
+  if (direction==CCW) position=position+SERVO_INCREMENT; //move clockwise
+  if(direction==CW) position=position-SERVO_INCREMENT; //move counter clockwise
+ 
+  myservo.write(position);
+}
+
+
+ //=============Displays Distances on Serial Monitor=====================================//
+void displayAll(int left, int front, int right){
+  char buffer[90];
+  if (direction == CW){
+  sprintf (buffer, " Left: %03dcm     Front: %03dcm     Right: %03dcm    |   Direction: CW   Position: %03d ", left, front, right,  position);}
+  else 
+  sprintf (buffer, " Left: %03dcm     Front: %03dcm     Right: %03dcm    |   Direction: CCW   Position: %03d ", left, front, right,  position);
+  Serial.println(buffer);
+}
+
+ //=============Returns Distance from a single ultra sensro===========================//
+int getDist(int identifier){
+      switch (identifier){
+        case RIGHT:
+          {digitalWrite(TRIG_PIN_RIGHT, LOW);       // send low to get a clean pulse
+          delayMicroseconds(10);                    // let it settle
+          digitalWrite(TRIG_PIN_RIGHT, HIGH);       // send high to trigger device
+          delayMicroseconds(10);                    // let it settle
+          int pulseLength = pulseIn(ECHO_PIN_RIGHT, HIGH);  // measure pulse coming back
+          int distance = pulseLength / 58;          //calculate distance in cm
+          return distance;}
+          break;
+          
+        case FRONT:
+          {digitalWrite(TRIG_PIN_FRONT, LOW);       // send low to get a clean pulse
+          delayMicroseconds(10);                    // let it settle
+          digitalWrite(TRIG_PIN_FRONT, HIGH);      // send high to trigger device
+          delayMicroseconds(10);                   // let it settle
+          int pulseLength = pulseIn(ECHO_PIN_FRONT, HIGH);  // measure pulse coming back
+          int distance = pulseLength / 58;        //calculate distance in cm
+          return distance;}
+          break;
+          
+        case LEFT:
+          {digitalWrite(TRIG_PIN_LEFT, LOW);       // send low to get a clean pulse
+          delayMicroseconds(10);                   // let it settle
+          digitalWrite(TRIG_PIN_LEFT, HIGH);       // send high to trigger device
+          delayMicroseconds(10);                   // let it settle 
+          int pulseLength = pulseIn(ECHO_PIN_LEFT, HIGH);  // measure pulse coming back  
+          int distance = pulseLength / 58;         //calculate distance in cmLEFT Distance: ");
+          return distance;}
+          break;      
+          
+        default:
+            {Serial.print("Case error");
+            return 0;}
+            break;
+      }
+}
+
+
